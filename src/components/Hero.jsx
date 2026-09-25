@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import heroImage from '../assets/hero.jpg';
@@ -31,11 +32,15 @@ const imageVariants = {
     opacity: 1,
     scale: 1,
     x: 0,
-    transition: { duration: 1, ease: [0.215, 0.610, 0.355, 1.000], delay: 0.4 }
+    transition: {
+      duration: 1,
+      ease: [0.215, 0.610, 0.355, 1.000],
+      delay: 0.4
+    }
   }
 };
 
-export default function Hero() {
+export default function Hero({ onApplyClick }) {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 md:px-16 lg:px-24 max-w-7xl mx-auto overflow-hidden pt-36 pb-16 lg:py-0">
       
@@ -52,9 +57,8 @@ export default function Hero() {
         >
           <motion.div 
             variants={itemVariants} 
-            className="inline-block  text-white text-[10px] font-extrabold px-3 py-4 tracking-[0.2em] uppercase"
+            className="inline-block text-white text-[10px] font-extrabold px-3 py-4 tracking-[0.2em] uppercase"
           >
-      
           </motion.div>
 
           <motion.h1 
@@ -69,33 +73,60 @@ export default function Hero() {
             variants={itemVariants} 
             className="text-base md:text-lg text-zinc-300 font-normal leading-relaxed max-w-2xl"
           >
-             At Crucible Lusaka we believe that Africa can make a big impact on the world economy through it's rich resources, culture, diversity, and talent.
-             our mission is to transform ambitious students into pioneering
-             leaders who can solve problems that the world today. TEDxCrucibleLusaka is a platform where these young leaders share ideas of how they plan to do so.
+            At Crucible Lusaka we believe that Africa can make a big impact on the world economy through it's rich resources, culture, diversity, and talent.
+            our mission is to transform ambitious students into pioneering
+            leaders who can solve problems that the world today. TEDxCrucibleLusaka is a platform where these young leaders share ideas of how they plan to do so.
           </motion.p>
 
           <motion.div variants={itemVariants} className="flex flex-wrap gap-4 pt-2">
+            
+            {/* APPLY TO SPEAK BUTTON */}
             <motion.button
+              onClick={onApplyClick}
               whileHover={{ scale: 1.04, backgroundColor: '#d00024' }}
               whileTap={{ scale: 0.97 }}
               className="group flex items-center gap-2 bg-ted-red text-white text-xs font-bold px-6 py-4 tracking-wider uppercase transition-colors duration-200 cursor-pointer"
             >
               APPLY TO SPEAK
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                strokeWidth={2.5} 
+                stroke="currentColor" 
+                className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1.5"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" 
+                />
               </svg>
             </motion.button>
 
+            {/* WATCH VIDEOS BUTTON */}
             <motion.button
               whileHover={{ scale: 1.04, backgroundColor: '#ffffff', color: '#000000' }}
               whileTap={{ scale: 0.97 }}
               className="group flex items-center gap-2 border border-white text-white text-xs font-bold px-6 py-4 tracking-wider uppercase transition-colors duration-200 cursor-pointer"
             >
               WATCH VIDEOS
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 transform transition-transform duration-300 group-hover:scale-115">
-                <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clipRule="evenodd" />
+
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 24 24" 
+                fill="currentColor" 
+                className="w-4 h-4 transform transition-transform duration-300 group-hover:scale-115"
+              >
+                <path 
+                  fillRule="evenodd" 
+                  d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" 
+                  clipRule="evenodd" 
+                />
               </svg>
             </motion.button>
+
           </motion.div>
         </motion.div>
 
@@ -127,14 +158,28 @@ export default function Hero() {
         transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-6 left-1/2 -translate-x-1/2 flex-col items-center z-10 pointer-events-none hidden lg:flex"
       >
-        <span className="text-[9px] font-bold text-zinc-500 tracking-[0.25em] uppercase mb-2">SCROLL TO EXPLORE</span>
+        <span className="text-[9px] font-bold text-zinc-500 tracking-[0.25em] uppercase mb-2">
+          SCROLL TO EXPLORE
+        </span>
+
         <motion.div 
           animate={{ y: [0, 8, 0] }} 
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
           className="text-ted-red"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            strokeWidth={3} 
+            stroke="currentColor" 
+            className="w-5 h-5"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              d="m19.5 8.25-7.5 7.5-7.5-7.5" 
+            />
           </svg>
         </motion.div>
       </motion.div>
