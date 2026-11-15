@@ -30,7 +30,7 @@ const itemVariants = {
 
 export default function Hero({ onApplyClick }) {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 md:px-12 max-w-7xl mx-auto overflow-hidden pt-28 pb-16 text-center">
+    <section className="relative h-screen w-full flex flex-col items-center justify-center px-6 md:px-12 overflow-hidden box-border">
       
       {/* BACKGROUND PARTICLE DRIFT ANIMATION WRAPPER */}
       <div className="absolute inset-0 w-full h-full z-0 pointer-events-auto overflow-hidden">
@@ -53,41 +53,39 @@ export default function Hero({ onApplyClick }) {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="flex flex-col items-center justify-center space-y-8 w-full z-10 relative pointer-events-none max-w-4xl mx-auto"
+        className="flex flex-col items-center justify-center space-y-6 md:space-y-8 w-full z-10 relative pointer-events-none max-w-4xl mx-auto mt-12"
       >
         
-        {/* Category / Subtitle Tracker (Matches "BRAND . DIGITAL . MOTION . SPACE") */}
+        {/* Category / Subtitle Tracker */}
         <motion.div 
           variants={itemVariants} 
-          className="text-[11px] md:text-xs font-mono tracking-[0.3em] text-zinc-400 uppercase pointer-events-auto"
+          className="text-[10px] sm:text-xs font-mono tracking-[0.255em] text-zinc-400 uppercase pointer-events-auto text-center px-4"
         >
           ECONOMICS &bull; ARTIFICIAL INTELLIGENCE &bull; PSYCHOLOGY &bull; LEADERSHIP
         </motion.div>
 
-        {/* Massive Centered Title (Matches "Antimatter") */}
+        {/* Massive Centered Title - Scales safely across all laptop resolutions */}
         <motion.h1 
           variants={itemVariants} 
-          className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tighter leading-[0.95] text-white uppercase pointer-events-auto"
+          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] text-white uppercase pointer-events-auto text-center"
         >
           <span className="text-ted-red">"</span>
           <span className="text-white">Rethinking</span><br />
           <span className="text-ted-red">Tomorrow</span>
-           <span className="text-white">"</span>
+          <span className="text-white">"</span>
         </motion.h1>
 
-        {/* Centered Description Text */}
-       
-        {/* Centered Action Buttons (Matches "SEE THE WORK" button style) */}
-        <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center gap-4 pt-4 pointer-events-auto">
+        {/* Centered Action Buttons */}
+        <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center gap-4 pt-2 pointer-events-auto">
           
           {/* APPLY TO SPEAK BUTTON */}
           <motion.button
             onClick={onApplyClick}
             whileHover={{ scale: 1.04, backgroundColor: '#d00024' }}
             whileTap={{ scale: 0.97 }}
-            className="group flex items-center gap-2 bg-ted-red text-white text-xs font-bold px-8 py-4 tracking-wider uppercase transition-colors duration-200 cursor-pointer shadow-lg"
+            className="group flex items-center gap-2 bg-ted-red text-white text-xs font-bold px-7 py-3.5 md:px-8 md:py-4 tracking-wider uppercase transition-colors duration-200 cursor-pointer shadow-lg"
           >
-            APPLY TO SPEAK
+            Meet Speakers
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               fill="none" 
@@ -104,7 +102,7 @@ export default function Hero({ onApplyClick }) {
           <motion.button
             whileHover={{ scale: 1.04, backgroundColor: '#ffffff', color: '#000000' }}
             whileTap={{ scale: 0.97 }}
-            className="group flex items-center gap-2 bg-white text-black text-xs font-bold px-8 py-4 tracking-wider uppercase transition-all duration-200 cursor-pointer shadow-lg"
+            className="group flex items-center gap-2 bg-white text-black text-xs font-bold px-7 py-3.5 md:px-8 md:py-4 tracking-wider uppercase transition-all duration-200 cursor-pointer shadow-lg"
           >
             WATCH VIDEOS
             <svg 
