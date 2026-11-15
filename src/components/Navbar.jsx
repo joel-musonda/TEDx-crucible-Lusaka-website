@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -28,13 +27,13 @@ export default function Navbar({ onApplyClick, onLogoClick }) {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        duration: 0.6,
+        duration: 0.4,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-sm"
+      className="fixed top-0 left-0 w-full z-50 py-3 px-4 md:px-8 flex justify-center"
     >
-      {/* Main Navbar */}
-      <div className="h-20 px-5 sm:px-6 md:px-12 flex items-center justify-between">
+      {/* Permanent Floating Glass Pill Navbar */}
+      <div className="w-full max-w-6xl bg-zinc-950/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] rounded-full px-6 md:px-10 h-16 flex items-center justify-between">
         
         {/* Logo */}
         <div
@@ -44,7 +43,7 @@ export default function Navbar({ onApplyClick, onLogoClick }) {
           TED
           <span className="text-ted-red">x</span>
           <span className="text-white font-semibold">
-            CrucibleLusaka
+            Crucible Lusaka
           </span>
         </div>
 
@@ -66,7 +65,7 @@ export default function Navbar({ onApplyClick, onLogoClick }) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleApplyClick}
-            className="bg-ted-red text-white text-xs font-bold px-6 py-3 tracking-widest uppercase hover:bg-[#d00024] transition-colors duration-300 cursor-pointer"
+            className="bg-ted-red text-white text-xs font-bold px-5 py-2.5 tracking-widest uppercase rounded-full hover:bg-[#d00024] transition-all duration-200 cursor-pointer"
           >
             APPLY TO SPEAK
           </motion.button>
@@ -114,17 +113,17 @@ export default function Navbar({ onApplyClick, onLogoClick }) {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25 }}
-            className="md:hidden overflow-hidden bg-black border-t border-zinc-800"
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.15 }}
+            className="md:hidden absolute top-full left-4 right-4 mt-2 overflow-hidden bg-zinc-950/95 backdrop-blur-2xl border border-zinc-800 rounded-2xl shadow-2xl"
           >
-            <div className="px-5 py-6 flex flex-col gap-2">
+            <div className="px-6 py-6 flex flex-col gap-3">
               {navLinks.map((link, index) => (
                 <motion.a
                   key={link}
@@ -133,10 +132,10 @@ export default function Navbar({ onApplyClick, onLogoClick }) {
                   initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
-                    delay: index * 0.05,
-                    duration: 0.2,
+                    delay: index * 0.03,
+                    duration: 0.15,
                   }}
-                  className="py-3 text-sm font-semibold text-zinc-300 hover:text-white tracking-widest transition-colors"
+                  className="py-3 text-sm font-semibold text-zinc-300 hover:text-white tracking-widest border-b border-zinc-900 transition-colors"
                 >
                   {link}
                 </motion.a>
@@ -146,7 +145,7 @@ export default function Navbar({ onApplyClick, onLogoClick }) {
               <motion.button
                 whileTap={{ scale: 0.98 }}
                 onClick={handleApplyClick}
-                className="mt-4 w-full bg-ted-red text-white text-xs font-bold px-6 py-4 tracking-widest uppercase hover:bg-[#d00024] transition-colors cursor-pointer"
+                className="mt-2 w-full bg-ted-red text-white text-xs font-bold px-6 py-4 tracking-widest uppercase hover:bg-[#d00024] transition-colors cursor-pointer rounded-xl shadow-lg"
               >
                 APPLY TO SPEAK
               </motion.button>
