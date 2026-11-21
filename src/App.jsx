@@ -2,42 +2,84 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import MainContent from './components/MainContent';
-import Footer from './components/Footer'; 
-import SpeakerForm from './components/SpeakerForm'; // 1. Import the new SpeakerForm
+import Footer from './components/Footer';
+import SpeakerForm from './components/SpeakerForm';
+import SpeakersPage from './components/SpeakersPage';
+import ContactPage from './components/ContactPage';
 
 function App() {
-  // 2. Track whether the user is on the application page or landing page
-  const [showApplyForm, setShowApplyForm] = useState(false);
+  // 'home' | 'speakers' | 'contact' | 'apply'
+  const [activeView, setActiveView] = useState('home');
+
+  const scrollToSection = (sectionId) => {
+    setTimeout(() => {
+      const target = document.getElementById(sectionId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 60);
+  };
 
   const handleOpenApply = () => {
-    setShowApplyForm(true);
+    setActiveView('apply');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleGoHome = () => {
-    setShowApplyForm(false);
+  const handleOpenSpeakers = () => {
+    setActiveView('speakers');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenContact = () => {
+    setActiveView('contact');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleGoHome = (event) => {
+    const href = event?.currentTarget?.getAttribute?.('href');
+    setActiveView('home');
+
+    if (href && href.startsWith('#')) {
+      event.preventDefault();
+      scrollToSection(href.slice(1));
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
     <div className="bg-black min-h-screen text-white">
-      {/* Pass the navigation handlers to Navbar */}
-      <Navbar onApplyClick={handleOpenApply} onLogoClick={handleGoHome} />
+      <Navbar
+        onViewSpeakers={handleOpenSpeakers}
+        onViewContact={handleOpenContact}
+        onLogoClick={handleGoHome}
+      />
 
-      {/* Conditionally render Form OR Home Content */}
-      {showApplyForm ? (
+      {activeView === 'apply' && (
         <div className="pt-20">
           <SpeakerForm />
         </div>
-      ) : (
+      )}
+
+      {activeView === 'speakers' && <SpeakersPage />}
+
+      {activeView === 'contact' && <ContactPage />}
+
+      {activeView === 'home' && (
         <>
-          <Hero onApplyClick={handleOpenApply} />
-          {/* Pass handler to MainContent so the lower CTA button works too */}
+          <Hero
+            onApplyClick={handleOpenApply}
+            onViewSpeakers={handleOpenSpeakers}
+            onViewContact={handleOpenContact}
+          />
           <MainContent onApplyClick={handleOpenApply} />
         </>
       )}
 
-      <Footer /> 
+      <Footer
+        onViewSpeakers={handleOpenSpeakers}
+        onViewContact={handleOpenContact}
+      />
     </div>
   );
 }

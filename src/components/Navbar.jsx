@@ -1,24 +1,46 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const navLinks = ['ABOUT', 'SPEAKERS', 'PROGRAM', 'CONTACT'];
+const navLinks = ['SPEAKERS', 'PROGRAM', 'CONTACT'];
 
-export default function Navbar({ onApplyClick, onLogoClick }) {
+export default function Navbar({ onViewSpeakers, onViewContact, onLogoClick }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleNavigation = (event) => {
+  const handleLinkClick = (event, link) => {
     setIsMenuOpen(false);
+
+    if (link === 'SPEAKERS') {
+      event.preventDefault();
+      if (onViewSpeakers) {
+        onViewSpeakers();
+      }
+      return;
+    }
+
+    if (link === 'CONTACT') {
+      event.preventDefault();
+      if (onViewContact) {
+        onViewContact();
+      }
+      return;
+    }
 
     if (onLogoClick) {
       onLogoClick(event);
     }
   };
 
-  const handleApplyClick = () => {
+  const handleLogoClick = (event) => {
     setIsMenuOpen(false);
+    if (onLogoClick) {
+      onLogoClick(event);
+    }
+  };
 
-    if (onApplyClick) {
-      onApplyClick();
+  const handleMeetSpeakersClick = () => {
+    setIsMenuOpen(false);
+    if (onViewSpeakers) {
+      onViewSpeakers();
     }
   };
 
@@ -37,7 +59,7 @@ export default function Navbar({ onApplyClick, onLogoClick }) {
         
         {/* Logo */}
         <div
-          onClick={handleNavigation}
+          onClick={handleLogoClick}
           className="font-extrabold text-xl sm:text-2xl tracking-tighter cursor-pointer select-none"
         >
           TED
@@ -53,21 +75,21 @@ export default function Navbar({ onApplyClick, onLogoClick }) {
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
-              onClick={handleNavigation}
+              onClick={(e) => handleLinkClick(e, link)}
               className="text-xs font-semibold text-zinc-300 hover:text-white tracking-widest transition-colors duration-200"
             >
               {link}
             </a>
           ))}
 
-          {/* Desktop Apply Button */}
+          {/* Desktop Meet Speakers Button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={handleApplyClick}
+            onClick={handleMeetSpeakersClick}
             className="bg-ted-red text-white text-xs font-bold px-5 py-2.5 tracking-widest uppercase rounded-full hover:bg-[#d00024] transition-all duration-200 cursor-pointer"
           >
-            APPLY TO SPEAK
+            MEET SPEAKERS
           </motion.button>
         </div>
 
@@ -128,7 +150,7 @@ export default function Navbar({ onApplyClick, onLogoClick }) {
                 <motion.a
                   key={link}
                   href={`#${link.toLowerCase()}`}
-                  onClick={handleNavigation}
+                  onClick={(e) => handleLinkClick(e, link)}
                   initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
@@ -141,13 +163,13 @@ export default function Navbar({ onApplyClick, onLogoClick }) {
                 </motion.a>
               ))}
 
-              {/* Mobile Apply Button */}
+              {/* Mobile Meet Speakers Button */}
               <motion.button
                 whileTap={{ scale: 0.98 }}
-                onClick={handleApplyClick}
+                onClick={handleMeetSpeakersClick}
                 className="mt-2 w-full bg-ted-red text-white text-xs font-bold px-6 py-4 tracking-widest uppercase hover:bg-[#d00024] transition-colors cursor-pointer rounded-xl shadow-lg"
               >
-                APPLY TO SPEAK
+                MEET SPEAKERS
               </motion.button>
             </div>
           </motion.div>
