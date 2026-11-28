@@ -1,5 +1,6 @@
 import React from 'react';
 import BlueSmoke from './BlueSmoke';
+import PageHero from './PageHero';
 import alinaswePhoto from '../assets/speakers/alinaswe-chifupa.webp';
 import christinePhoto from '../assets/speakers/christine-chinyemba.webp';
 import fredrickPhoto from '../assets/speakers/fredrick-mukuka.webp';
@@ -112,21 +113,35 @@ export default function SpeakersPage({ speakers = DEFAULT_SPEAKERS }) {
   return (
     <div className="relative min-h-screen overflow-hidden text-white selection:bg-ted-red selection:text-white">
       <BlueSmoke />
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20 pt-28 md:px-12 lg:px-16">
-        <header className="max-w-3xl space-y-4">
-          <h1 className="text-4xl font-black leading-tight tracking-tight sm:text-5xl md:text-6xl">
-            Ideas Worth Spreading From{' '}
-            <span className="text-ted-red">Crucible Lusaka.</span>
-          </h1>
-          <p className="text-sm leading-relaxed text-white/70 md:text-base">
-            Meet the guest speaker, teachers, and student speakers taking the stage this year.
-          </p>
-        </header>
+      <div className="relative z-10">
+        <PageHero
+          background="bg-transparent"
+          eyebrow="Speakers"
+          title={
+            <>
+              Ideas Worth Spreading From{' '}
+              <span className="text-ted-red">Crucible Lusaka.</span>
+            </>
+          }
+          description="Meet the guest speaker, teachers, and student speakers taking the stage this year."
+          meta={
+            <>
+              <span>{String(speakers.length).padStart(2, '0')} speakers</span>
+              <span>15 December 2026</span>
+              <span>Crucible Lusaka</span>
+            </>
+          }
+        />
 
-        <section className="mt-14 space-y-8">
-          <h2 className="text-2xl font-extrabold tracking-tight md:text-3xl">Speakers</h2>
+        <section className="mx-auto max-w-7xl px-6 pb-20 pt-16 md:px-12 md:pt-24 lg:px-16">
+          <div className="flex items-baseline justify-between gap-4 border-b border-white/10 pb-5">
+            <h2 className="text-2xl font-extrabold tracking-tight md:text-3xl">Speakers</h2>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/35">
+              Class of 2026
+            </span>
+          </div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {speakers.map((speaker, index) => (
               <SpeakerCard key={speaker.id || index} speaker={speaker} index={index} />
             ))}

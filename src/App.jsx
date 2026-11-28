@@ -61,11 +61,7 @@ function App() {
         onLogoClick={handleGoHome}
       />
 
-      {activeView === 'apply' && (
-        <div className="pt-20">
-          <SpeakerForm />
-        </div>
-      )}
+      {activeView === 'apply' && <SpeakerForm />}
 
       {activeView === 'speakers' && <SpeakersPage />}
 
