@@ -303,6 +303,7 @@ export default function ParticleDrift(props: Props) {
         }
 
         let raf = 0
+        let visible = true
         let last = performance.now()
         let builtN = -1
         let builtW = 0
@@ -342,7 +343,7 @@ export default function ParticleDrift(props: Props) {
 
             const ptr = ptrRef.current
             const hv = v.hover as number
-            const reach = 180 * (hv > 0 ? 1 : 0)
+            const reach = hv > 0 ? 180 * Math.min(1.5, hv) : 0
             const LINKD = v.linkDistance as number
             const LINKW = v.linkThickness as number
 
@@ -392,8 +393,8 @@ export default function ParticleDrift(props: Props) {
                 const d = Math.sqrt(dx * dx + dy * dy)
                 const lit = reach > 0 && d < reach ? 1 : 0
                 if (lit === 1 && lines < MAX_LINES) {
-                    const a = 0.5 * (1 - d / reach) * hv
-                    pushLine(nx[i], ny[i], ptr.x, ptr.y, a, a, 1, LINKW)
+                    const a = 0.55 * (1 - d / reach) * hv
+                    pushLine(nx[i], ny[i], ptr.x, ptr.y, a, a, 1, LINKW * 1.2)
                 }
                 gPos[i * 2] = nx[i]
                 gPos[i * 2 + 1] = ny[i]
@@ -480,33 +481,48 @@ export default function ParticleDrift(props: Props) {
                 gl.disableVertexAttribArray(aLit)
             }
 
-            raf = requestAnimationFrame(render)
+            raf = visible ? requestAnimationFrame(render) : 0
         }
 
-        const track = (e: PointerEvent) => {
-            const r = canvas.getBoundingClientRect()
-            if (r.width <= 0 || r.height <= 0) return
-            const cw = sizeRef.current.w || canvas.clientWidth || 1200
-            const ch = sizeRef.current.h || canvas.clientHeight || 800
-            ptrRef.current.x = ((e.clientX - r.left) / r.width) * cw
-            ptrRef.current.y = ((e.clientY - r.top) / r.height) * ch
-        }
         const onLeave = () => {
             ptrRef.current.x = -10000
             ptrRef.current.y = -10000
         }
+        const track = (e: PointerEvent) => {
+            const r = canvas.getBoundingClientRect()
+            if (r.width <= 0 || r.height <= 0) return
+            const x = e.clientX - r.left
+            const y = e.clientY - r.top
+            if (x < 0 || y < 0 || x > r.width || y > r.height) {
+                onLeave()
+                return
+            }
+            const cw = sizeRef.current.w || canvas.clientWidth || 1200
+            const ch = sizeRef.current.h || canvas.clientHeight || 800
+            ptrRef.current.x = (x / r.width) * cw
+            ptrRef.current.y = (y / r.height) * ch
+        }
 
-        canvas.addEventListener("pointermove", track)
-        canvas.addEventListener("pointerenter", track)
-        canvas.addEventListener("pointerleave", onLeave)
+        // The hero canvas is pointer-events:none so it never blocks the CTA buttons.
+        window.addEventListener("pointermove", track, { passive: true })
+        window.addEventListener("pointerleave", onLeave)
+
+        const intersection = new IntersectionObserver(entries => {
+            visible = entries.some(entry => entry.isIntersecting)
+            if (visible && !raf) {
+                last = performance.now()
+                raf = requestAnimationFrame(render)
+            }
+        })
+        intersection.observe(canvas)
 
         raf = requestAnimationFrame(render)
 
         return () => {
             cancelAnimationFrame(raf)
-            canvas.removeEventListener("pointermove", track)
-            canvas.removeEventListener("pointerenter", track)
-            canvas.removeEventListener("pointerleave", onLeave)
+            intersection.disconnect()
+            window.removeEventListener("pointermove", track)
+            window.removeEventListener("pointerleave", onLeave)
 
             // Clean up WebGL resources
             gl.deleteBuffer(bP0)
@@ -517,6 +533,7 @@ export default function ParticleDrift(props: Props) {
             gl.deleteBuffer(bGLit)
             gl.deleteProgram(lineProg)
             gl.deleteProgram(dotProg)
+            if (!canvas.isConnected) gl.getExtension("WEBGL_lose_context")?.loseContext()
         }
    }, [])
 

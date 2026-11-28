@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         'ted-red': '#EB0028',
+        'ted-red-hover': '#D00024',
       },
     },
   },

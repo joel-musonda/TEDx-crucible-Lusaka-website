@@ -1,210 +1,231 @@
-'use client'
-
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import Particles from './Particles';
-import logoImg from '../assets/logo.png';
+import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import crucibleBuildingImg from '../assets/crucible.png';
-import bg from '../assets/bg.png';
 import image1 from '../assets/image1.jpg';
 import image2 from '../assets/image2.jpg';
 
+const PROCESS_STEPS = [
+  {
+    title: 'Submission',
+    body: 'Send the core idea and the argument behind it. Short and specific beats broad and vague.',
+  },
+  {
+    title: 'Interview',
+    body: 'Shortlisted speakers present a three-minute outline to the student curatorial team.',
+  },
+  {
+    title: 'Rehearsal',
+    body: 'Work with coaches on structure, pacing and delivery, then present to a test audience.',
+  },
+];
+
+function Eyebrow({ children }) {
+  return (
+    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-ted-red">{children}</p>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2.5}
+      stroke="currentColor"
+      className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+      aria-hidden="true"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+    </svg>
+  );
+}
+
 export default function MainContent({ onApplyClick }) {
-    const sections = [
-        {
-            id: 1,
-            tagline: "About Us",
-            title: "Crucible Lusaka",
-            description: (
-                <>
-                  Crucible Lusaka serves as our vibrant intellectual hub where students are challenged to think critically, innovate fearlessly, and develop ideas that extend far beyond traditional boundaries.<br /><br />
-                  By providing an empowering environment for young people, the school nurtures the next generation of leaders, thinkers, and changemakers who will shape the future of Zambia and beyond.
-                </>
-            ),
-            imageUrl: crucibleBuildingImg,
-            reverse: false
-        },
-        {
-            id: 2,
-            tagline: "Our Pitch",
-            title: "Why Give A Ted Talk?",
-            description: (
-                <div className="space-y-4 text-sm">
-                  <div className="bg-zinc-900/70 border border-zinc-800 p-4">
-                    <strong className="text-white block mb-1 text-base">Encourages critical thinking</strong>
-                    <p className="text-zinc-400">The format of TedX Talks encourages critical thinking, as speakers are given limited time to present their ideas engagingly.</p>
-                  </div>
-                  <div className="bg-zinc-900/90 border-l-4 border-ted-red border-y border-r border-zinc-800 p-4">
-                    <strong className="text-white block mb-1 text-base">Helps develop public speaking skills</strong>
-                    <p className="text-zinc-400">By hearing how other people deliver their ideas, one can learn how to structure their speeches and presentations.</p>
-                  </div>
-                </div>
-            ),
-            imageUrl: bg,
-            reverse: true
-        },
-        {
-            id: 3,
-            tagline: "THE ROAD TO THE STAGE",
-            title: "Selection Process",
-            description: (
-                <div className="space-y-5 border-l-2 border-zinc-800 pl-4 ml-2">
-                  <div>
-                    <span className="text-ted-red text-[10px] font-black uppercase tracking-wider block mb-1">Phase 01 — Submission</span>
-                    <h4 className="text-base font-bold text-white">Pitch Your Core Concept</h4>
-                    <p className="text-zinc-400 text-xs mt-1">Fill out our deep review application stating clearly what your idea worth spreading is.</p>
-                  </div>
-                  <div>
-                    <span className="text-ted-red text-[10px] font-black uppercase tracking-wider block mb-1">Phase 02 — Interview</span>
-                    <h4 className="text-base font-bold text-white">Curatorial Review</h4>
-                    <p className="text-zinc-400 text-xs mt-1">Shortlisted visionaries deliver a concise 3-minute framework presentation.</p>
-                  </div>
-                  <div>
-                    <span className="text-ted-red text-[10px] font-black uppercase tracking-wider block mb-1">Phase 03 — Forging</span>
-                    <h4 className="text-base font-bold text-white">Intensive Scripting Workshops</h4>
-                    <p className="text-zinc-400 text-xs mt-1">Work alongside TEDx stage coaches to structure structural transitions and polish delivery.</p>
-                  </div>
-                </div>
-            ),
-            imageUrl: image1,
-            reverse: false
-        },
-        {
-            id: 4,
-            tagline: "TIMELINE & DEADLINES",
-            title: "Do You Have an Idea?",
-            description: (
-                <div className="space-y-6">
-                  <p className="text-zinc-300 text-sm">
-                    We are looking for the visionaries, the outliers, and the quiet observers who hold a perspective capable of changing how we see the world. Give it a shot!
-                  </p>
-                  <div className="bg-zinc-900/90 border border-zinc-800 grid grid-cols-2 divide-x divide-zinc-800 p-3 text-left">
-                    <div className="px-3">
-                      <span className="text-[9px] font-extrabold text-ted-red uppercase block">Deadline</span>
-                      <span className="text-base font-black text-white">October 10, 2026</span>
-                    </div>
-                    <div className="px-3">
-                      <span className="text-[9px] font-extrabold text-ted-red uppercase block">Event Date</span>
-                      <span className="text-base font-black text-white">Dec 15, 2026</span>
-                    </div>
-                  </div>
-                  <div>
-                    <motion.button 
-                      whileHover={{ scale: 1.05, backgroundColor: '#d00024' }}
-                      whileTap={{ scale: 0.96 }}
-                      onClick={onApplyClick}
-                      className="bg-ted-red text-white text-xs font-bold px-7 py-3.5 tracking-widest uppercase shadow-lg cursor-pointer"
-                    >
-                      Meet The Speakers
-                    </motion.button>
-                  </div>
-                </div>
-            ),
-            imageUrl: image2,
-            reverse: true
-        }
-    ];
+  const reduceMotion = useReducedMotion();
+  const reveal = reduceMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 16 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: '-80px' },
+        transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+      };
 
-    const sectionRefs = sections.map(() => useRef(null));
-    
-    const scrollYProgress = sections.map((_, index) => {
-        return useScroll({
-            target: sectionRefs[index],
-            offset: ["start end", "center start"]
-        }).scrollYProgress;
-    });
-
-    const opacityContents = scrollYProgress.map(progress => 
-        useTransform(progress, [0, 0.7], [0, 1])
-    );
-    
-    const clipProgresses = scrollYProgress.map(progress => 
-        useTransform(progress, [0, 0.7], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"])
-    );
-    
-    const translateContents = scrollYProgress.map(progress => 
-        useTransform(progress, [0, 1], [-30, 0])
-    );
-
-    return (
-        <div className="relative bg-black text-white selection:bg-ted-red selection:text-white overflow-hidden">
-            
-            {/* Highly Intense Background Particle Engine */}
-            <div className="absolute inset-0 z-0 pointer-events-auto">
-                <Particles
-                    particleCount={300}
-                    particleSpread={10}
-                    speed={0.2}
-                    particleColors={['#ffffff', '#ff2b06', '#ff5c5c', '#8fdcff']}
-                    moveParticlesOnHover={true}
-                    particleHoverFactor={1.5}
-                    alphaParticles={true}
-                    particleBaseSize={180}
-                    sizeRandomness={1.2}
-                    cameraDistance={18}
-                    connections={true}
-                    connectionDistance={140}
-                    hoverEffect="parallax"
-                    hoverRadius={180}
-                    clickBurst={true}
-                    glow={1.2}
-                    twinkle={0.6}
-                    opacity={1}
-                />
+  return (
+    <div className="relative z-10 text-white selection:bg-ted-red selection:text-white">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
+        <motion.section
+          {...reveal}
+          id="about"
+          className="scroll-mt-24 grid gap-10 border-t border-white/10 md:scroll-mt-28 py-16 md:py-24 lg:grid-cols-12 lg:items-start lg:gap-16"
+        >
+          <div className="lg:col-span-5">
+            <Eyebrow>About</Eyebrow>
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-balance md:text-4xl lg:text-5xl">
+              Crucible Lusaka
+            </h2>
+            <div className="mt-6 space-y-4 text-sm leading-relaxed text-white/60 md:text-base">
+              <p>
+                Crucible Lusaka is a school in Lusaka, Zambia. TEDx Crucible Lusaka is organised
+                by its students: one day of talks, performances and conversation built around
+                ideas they believe are worth spreading.
+              </p>
+              <p>
+                The event is independently organised under a licence from TED.
+              </p>
             </div>
+          </div>
 
-            {/* Scroll Feature Container */}
-            <div className="relative z-10 flex flex-col md:px-16 px-6 max-w-7xl mx-auto py-12">
-                {sections.map((section, index) => (
-                    <div 
-                        key={section.id}
-                        ref={sectionRefs[index]} 
-                        className={`min-h-screen flex flex-col lg:flex-row items-center justify-center lg:gap-24 gap-12 py-20 ${section.reverse ? 'lg:flex-row-reverse' : ''}`}
-                    >
-                        {/* Text Block Content with enhanced backdrop contrast */}
-                        <motion.div 
-                            style={{ y: translateContents[index] }}
-                            className="w-full lg:w-1/2 flex flex-col justify-center space-y-4 bg-black/75 backdrop-blur-md p-8 rounded-xl border border-white/10 shadow-2xl"
-                        >
-                            <span className="text-ted-red text-[10px] font-extrabold tracking-[0.3em] uppercase block">
-                                {section.tagline}
-                            </span>
-                            {section.id === 1 && (
-                                <div>
-                                    <img src={logoImg} alt="Crucible Lusaka Logo" className="h-12 w-auto object-contain" />
-                                </div>
-                            )}
-                            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
-                                {section.title}
-                            </h2>
-                            <div className="text-zinc-200 font-normal leading-relaxed pt-2">
-                                {section.description}
-                            </div>
-                        </motion.div>
-
-                        {/* Parallax / Clip Path Image Box */}
-                        <motion.div 
-                            style={{ 
-                                opacity: opacityContents[index],
-                                clipPath: clipProgresses[index],
-                            }}
-                            className="w-full lg:w-1/2 relative flex justify-center"
-                        >
-                            <div className="aspect-[4/4] w-full max-w-md overflow-hidden bg-zinc-950/90 backdrop-blur-md border border-zinc-700 shadow-2xl relative group">
-                                <img 
-                                    src={section.imageUrl} 
-                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
-                                    alt={`Section ${section.id}`}
-                                    onError={(e) => {
-                                        e.target.style.display = 'none';
-                                    }}
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
-                            </div>
-                        </motion.div>
-                    </div>
-                ))}
+          <figure className="lg:col-span-7">
+            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
+              <img
+                src={crucibleBuildingImg}
+                alt="Crucible Lusaka students and faculty at an awards ceremony"
+                loading="lazy"
+                className="aspect-[3/2] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              />
             </div>
-        </div>
-    );
+            <figcaption className="mt-3 text-xs text-white/40">
+              Students and faculty at Crucible Lusaka.
+            </figcaption>
+          </figure>
+        </motion.section>
+
+        <motion.section
+          {...reveal}
+          id="why"
+          className="scroll-mt-24 grid gap-10 border-t border-white/10 md:scroll-mt-28 py-16 md:py-24 lg:grid-cols-12 lg:items-center lg:gap-16"
+        >
+          <figure className="lg:col-span-5">
+            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
+              <img
+                src={image2}
+                alt="Students in a classroom at Crucible Lusaka"
+                loading="lazy"
+                className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+            </div>
+            <figcaption className="mt-3 text-xs text-white/40">
+              A workshop session at Crucible Lusaka.
+            </figcaption>
+          </figure>
+
+          <div className="lg:col-span-7">
+            <Eyebrow>Why a TEDx talk</Eyebrow>
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-balance md:text-4xl lg:text-5xl">
+              An idea, held to a few minutes.
+            </h2>
+            <p className="mt-6 max-w-xl text-sm leading-relaxed text-white/60 md:text-base">
+              A TEDx talk asks you to compress a big idea into a short, clear argument. The
+              constraint is the work: you have to find the centre of what you want to say.
+            </p>
+
+            <dl className="mt-8 border-t border-white/10">
+              <div className="grid gap-1 border-b border-white/10 py-5 sm:grid-cols-[180px_1fr] sm:gap-8">
+                <dt className="text-sm font-semibold text-white">Think in public</dt>
+                <dd className="text-sm leading-relaxed text-white/55">
+                  You get a few minutes to make an idea land. That sharpens how you reason, edit
+                  and defend it.
+                </dd>
+              </div>
+              <div className="grid gap-1 border-b border-white/10 py-5 sm:grid-cols-[180px_1fr] sm:gap-8">
+                <dt className="text-sm font-semibold text-white">Learn by watching</dt>
+                <dd className="text-sm leading-relaxed text-white/55">
+                  Rehearsals and the final talks show how other speakers build an argument and
+                  hold a room.
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </motion.section>
+
+        <motion.section
+          {...reveal}
+          id="program"
+          className="scroll-mt-24 grid gap-10 border-t border-white/10 md:scroll-mt-28 py-16 md:py-24 lg:grid-cols-12 lg:items-start lg:gap-16"
+        >
+          <div className="lg:col-span-5">
+            <Eyebrow>Process</Eyebrow>
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-balance md:text-4xl lg:text-5xl">
+              The road to the stage.
+            </h2>
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-white/60 md:text-base">
+              Every talk goes through the same three stages. Each one is designed to make the
+              final idea tighter.
+            </p>
+          </div>
+
+          <ol className="border-t border-white/10 lg:col-span-7">
+            {PROCESS_STEPS.map((step, index) => (
+              <li
+                key={step.title}
+                className="grid gap-2 border-b border-white/10 py-6 sm:grid-cols-[48px_1fr] sm:gap-6"
+              >
+                <span className="font-mono text-xs text-white/35">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <h3 className="text-base font-semibold text-white">{step.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-white/55">{step.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </motion.section>
+
+        <motion.section
+          {...reveal}
+          id="apply"
+          className="scroll-mt-24 grid gap-10 border-t border-white/10 md:scroll-mt-28 py-16 md:py-24 lg:grid-cols-12 lg:items-center lg:gap-16"
+        >
+          <div className="lg:col-span-7">
+            <Eyebrow>Apply</Eyebrow>
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-balance md:text-4xl lg:text-5xl">
+              Do you have an idea?
+            </h2>
+            <p className="mt-6 max-w-xl text-sm leading-relaxed text-white/60 md:text-base">
+              If you have a perspective you can defend and a story only you can tell, apply. We
+              will help you shape it for the stage.
+            </p>
+
+            <dl className="mt-8 grid max-w-sm grid-cols-2 gap-6 border-t border-white/10 pt-6">
+              <div>
+                <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+                  Applications close
+                </dt>
+                <dd className="mt-1.5 text-base font-bold text-white">10 October 2026</dd>
+              </div>
+              <div>
+                <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+                  Event date
+                </dt>
+                <dd className="mt-1.5 text-base font-bold text-white">15 December 2026</dd>
+              </div>
+            </dl>
+
+            <button
+              type="button"
+              onClick={onApplyClick}
+              className="group mt-8 inline-flex items-center gap-2 rounded-full bg-ted-red px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-ted-red-hover"
+            >
+              Apply to speak
+              <ArrowIcon />
+            </button>
+          </div>
+
+          <figure className="lg:col-span-5">
+            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
+              <img
+                src={image1}
+                alt="A Crucible Lusaka student"
+                loading="lazy"
+                className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+            </div>
+          </figure>
+        </motion.section>
+      </div>
+    </div>
+  );
 }

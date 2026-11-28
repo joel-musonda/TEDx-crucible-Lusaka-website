@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import MainContent from './components/MainContent';
 import Footer from './components/Footer';
+import HomeAmbient from './components/HomeAmbient';
 import SpeakerForm from './components/SpeakerForm';
 import SpeakersPage from './components/SpeakersPage';
 import ContactPage from './components/ContactPage';
@@ -33,6 +34,11 @@ function App() {
   const handleOpenContact = () => {
     setActiveView('contact');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenSection = (sectionId) => {
+    setActiveView('home');
+    scrollToSection(sectionId);
   };
 
   const handleGoHome = (event) => {
@@ -67,6 +73,7 @@ function App() {
 
       {activeView === 'home' && (
         <>
+          <HomeAmbient />
           <Hero
             onApplyClick={handleOpenApply}
             onViewSpeakers={handleOpenSpeakers}
@@ -77,6 +84,7 @@ function App() {
       )}
 
       <Footer
+        onViewSection={handleOpenSection}
         onViewSpeakers={handleOpenSpeakers}
         onViewContact={handleOpenContact}
       />

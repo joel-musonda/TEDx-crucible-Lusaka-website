@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const navLinks = ['SPEAKERS', 'PROGRAM', 'CONTACT'];
+const NAV_LINKS = ['SPEAKERS', 'PROGRAM', 'CONTACT'];
 
 export default function Navbar({ onViewSpeakers, onViewContact, onLogoClick }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,170 +11,123 @@ export default function Navbar({ onViewSpeakers, onViewContact, onLogoClick }) {
 
     if (link === 'SPEAKERS') {
       event.preventDefault();
-      if (onViewSpeakers) {
-        onViewSpeakers();
-      }
+      onViewSpeakers?.();
       return;
     }
 
     if (link === 'CONTACT') {
       event.preventDefault();
-      if (onViewContact) {
-        onViewContact();
-      }
+      onViewContact?.();
       return;
     }
 
-    if (onLogoClick) {
-      onLogoClick(event);
-    }
+    onLogoClick?.(event);
   };
 
   const handleLogoClick = (event) => {
     setIsMenuOpen(false);
-    if (onLogoClick) {
-      onLogoClick(event);
-    }
+    onLogoClick?.(event);
   };
 
   const handleMeetSpeakersClick = () => {
     setIsMenuOpen(false);
-    if (onViewSpeakers) {
-      onViewSpeakers();
-    }
+    onViewSpeakers?.();
   };
 
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.4,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="fixed top-0 left-0 w-full z-50 py-3 px-4 md:px-8 flex justify-center"
-    >
-      {/* Permanent Floating Glass Pill Navbar */}
-      <div className="w-full max-w-6xl bg-zinc-950/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] rounded-full px-6 md:px-10 h-16 flex items-center justify-between">
-        
-        {/* Logo */}
-        <div
+    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-2 md:px-6 md:pt-3">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full border border-white/10 bg-[#0B0B0B]/90 px-4 shadow-[0_10px_34px_rgba(0,0,0,0.38)] backdrop-blur-xl md:h-16 md:px-6">
+        <button
+          type="button"
           onClick={handleLogoClick}
-          className="font-extrabold text-xl sm:text-2xl tracking-tighter cursor-pointer select-none"
+          aria-label="TEDx Crucible Lusaka home"
+          className="text-left text-base font-extrabold tracking-tight select-none sm:text-lg md:text-xl"
         >
           TED
           <span className="text-ted-red">x</span>
-          <span className="text-white font-semibold">
-            Crucible Lusaka
-          </span>
-        </div>
+          <span className="font-semibold text-white">Crucible Lusaka</span>
+        </button>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
+        <div className="hidden items-center gap-6 lg:flex lg:gap-8">
+          {NAV_LINKS.map((link) => (
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
-              onClick={(e) => handleLinkClick(e, link)}
-              className="text-xs font-semibold text-zinc-300 hover:text-white tracking-widest transition-colors duration-200"
+              onClick={(event) => handleLinkClick(event, link)}
+              className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/70 transition-colors hover:text-white"
             >
               {link}
             </a>
           ))}
 
-          {/* Desktop Meet Speakers Button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <button
+            type="button"
             onClick={handleMeetSpeakersClick}
-            className="bg-ted-red text-white text-xs font-bold px-5 py-2.5 tracking-widest uppercase rounded-full hover:bg-[#d00024] transition-all duration-200 cursor-pointer"
+            className="rounded-full bg-ted-red px-4 py-2 text-[10px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-ted-red-hover"
           >
-            MEET SPEAKERS
-          </motion.button>
+            Meet speakers
+          </button>
         </div>
 
-        {/* Mobile Menu Button */}
         <button
           type="button"
-          onClick={() => setIsMenuOpen((prev) => !prev)}
+          onClick={() => setIsMenuOpen((open) => !open)}
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isMenuOpen}
-          className="md:hidden text-white p-2 cursor-pointer focus:outline-none"
+          className="-mr-1.5 p-1.5 text-white lg:hidden"
         >
-          {isMenuOpen ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-7 h-7"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-7 h-7"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-          )}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-5 w-5"
+            aria-hidden="true"
+          >
+            {isMenuOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            )}
+          </svg>
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.15 }}
-            className="md:hidden absolute top-full left-4 right-4 mt-2 overflow-hidden bg-zinc-950/95 backdrop-blur-2xl border border-zinc-800 rounded-2xl shadow-2xl"
+            className="absolute inset-x-4 top-full mt-2 overflow-hidden rounded-3xl border border-white/10 bg-[#0B0B0B]/95 shadow-2xl backdrop-blur-xl lg:hidden"
           >
-            <div className="px-6 py-6 flex flex-col gap-3">
-              {navLinks.map((link, index) => (
-                <motion.a
+            <nav className="flex flex-col px-6 py-4">
+              {NAV_LINKS.map((link) => (
+                <a
                   key={link}
                   href={`#${link.toLowerCase()}`}
-                  onClick={(e) => handleLinkClick(e, link)}
-                  initial={{ opacity: 0, x: -15 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{
-                    delay: index * 0.03,
-                    duration: 0.15,
-                  }}
-                  className="py-3 text-sm font-semibold text-zinc-300 hover:text-white tracking-widest border-b border-zinc-900 transition-colors"
+                  onClick={(event) => handleLinkClick(event, link)}
+                  className="border-b border-white/10 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/70 transition-colors hover:text-white"
                 >
                   {link}
-                </motion.a>
+                </a>
               ))}
-
-              {/* Mobile Meet Speakers Button */}
-              <motion.button
-                whileTap={{ scale: 0.98 }}
+              <button
+                type="button"
                 onClick={handleMeetSpeakersClick}
-                className="mt-2 w-full bg-ted-red text-white text-xs font-bold px-6 py-4 tracking-widest uppercase hover:bg-[#d00024] transition-colors cursor-pointer rounded-xl shadow-lg"
+                className="mt-4 w-full rounded-full bg-ted-red py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-ted-red-hover"
               >
-                MEET SPEAKERS
-              </motion.button>
-            </div>
+                Meet speakers
+              </button>
+              <p className="pt-6 text-[11px] uppercase tracking-[0.18em] text-white/40">
+                15 December 2026 · Crucible Lusaka
+              </p>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </header>
   );
 }

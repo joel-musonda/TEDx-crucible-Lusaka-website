@@ -1,124 +1,136 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import ParticleDrift from './background';
+import useMediaQuery from '../hooks/useMediaQuery';
+import { BRAND_RED, PARTICLE_BLUE } from '../theme';
+
+const EVENT_DETAILS = [
+  { label: 'Date', value: '15 December 2026' },
+  { label: 'Venue', value: 'Crucible Lusaka' },
+  { label: 'City', value: 'Lusaka, Zambia' },
+];
 
 const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-      duration: 0.8,
-      ease: [0.215, 0.610, 0.355, 1.000],
-    },
-  },
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.08 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 14 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { 
-      duration: 0.8, 
-      ease: [0.215, 0.610, 0.355, 1.000] 
-    },
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
-export default function Hero({ onApplyClick }) {
+function ArrowIcon() {
   return (
-    <section className="relative h-screen w-full flex flex-col items-center justify-center px-6 md:px-12 overflow-hidden box-border">
-      
-      {/* BACKGROUND PARTICLE DRIFT ANIMATION WRAPPER */}
-      <div className="absolute inset-0 w-full h-full z-0 pointer-events-auto overflow-hidden">
-        <ParticleDrift 
-          background="#000000"
-          baseColor="#7189ff"
-          accentColor="#ff2b06"
-          density={250}
-          dotSize={6}
-          speed={50}
-          direction={45}
-          hover={150}
-          linkDistance={200}
-          linkThickness={1}
-        />
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2.5}
+      stroke="currentColor"
+      className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+      aria-hidden="true"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+    </svg>
+  );
+}
+
+export default function Hero({ onApplyClick, onViewSpeakers }) {
+  const reduceMotion = useReducedMotion();
+  const compact = useMediaQuery('(max-width: 640px)');
+
+  return (
+    <section id="hero" className="relative isolate flex min-h-[calc(100svh-5rem)] items-center overflow-hidden bg-black text-white">
+      {!reduceMotion && (
+        <div aria-hidden="true" className="hero-blue-drift">
+          <ParticleDrift
+            background="transparent"
+            baseColor={PARTICLE_BLUE}
+            accentColor={BRAND_RED}
+            density={compact ? 95 : 165}
+            dotSize={compact ? 2.3 : 2.8}
+            speed={compact ? 12 : 17}
+            direction={35}
+            hover={compact ? 110 : 150}
+            linkDistance={compact ? 120 : 155}
+            linkThickness={0.9}
+            style={{ minWidth: 0, minHeight: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      )}
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{
+          backgroundImage:
+            'radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.18) 40%, rgba(0,0,0,0) 76%)',
+        }}
+      />
+
+      <div className="relative z-10 mx-auto w-full max-w-5xl px-6 py-28 text-center md:px-12">
+        <motion.div
+          variants={containerVariants}
+          initial={reduceMotion ? false : 'hidden'}
+          animate="visible"
+        >
+          <motion.h1
+            variants={itemVariants}
+            className="text-[clamp(3rem,10vw,7.75rem)] font-black uppercase leading-[0.86] tracking-[-0.045em]"
+          >
+            <span className="mr-1 text-ted-red" aria-hidden="true">
+              “
+            </span>
+            Rethinking
+            <br />
+            <span className="text-ted-red">Tomorrow</span>
+            <span className="ml-1 text-ted-red" aria-hidden="true">
+              ”
+            </span>
+          </motion.h1>
+
+          <motion.div
+            variants={itemVariants}
+            className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
+          >
+            <button
+              type="button"
+              onClick={onViewSpeakers}
+              className="group inline-flex w-full items-center justify-center gap-2 rounded-none bg-ted-red px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-ted-red-hover sm:w-auto"
+            >
+              Meet the speakers
+              <ArrowIcon />
+            </button>
+            <button
+              type="button"
+              onClick={onApplyClick}
+              className="group inline-flex w-full items-center justify-center gap-2 rounded-none border border-white bg-white px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-black transition-colors hover:bg-white/90 sm:w-auto"
+            >
+              Apply to speak
+              <ArrowIcon />
+            </button>
+          </motion.div>
+
+          <motion.dl
+            variants={itemVariants}
+            className="mx-auto mt-14 flex max-w-2xl flex-wrap items-start justify-center gap-x-10 gap-y-5 border-t border-white/10 pt-6"
+          >
+            {EVENT_DETAILS.map((detail) => (
+              <div key={detail.label} className="text-center">
+                <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
+                  {detail.label}
+                </dt>
+                <dd className="mt-1.5 text-sm font-semibold text-white">{detail.value}</dd>
+              </div>
+            ))}
+          </motion.dl>
+        </motion.div>
       </div>
-
-      {/* FOREGROUND CENTERED CONTENT LAYER */}
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="flex flex-col items-center justify-center space-y-6 md:space-y-8 w-full z-10 relative pointer-events-none max-w-4xl mx-auto mt-12"
-      >
-        
-        {/* Category / Subtitle Tracker */}
-        <motion.div 
-          variants={itemVariants} 
-          className="text-[10px] sm:text-xs font-mono tracking-[0.255em] text-zinc-400 uppercase pointer-events-auto text-center px-4"
-        >
-          ECONOMICS &bull; ARTIFICIAL INTELLIGENCE &bull; PSYCHOLOGY &bull; LEADERSHIP
-        </motion.div>
-
-        {/* Massive Centered Title - Scales safely across all laptop resolutions */}
-        <motion.h1 
-          variants={itemVariants} 
-          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] text-white uppercase pointer-events-auto text-center"
-        >
-          <span className="text-ted-red">"</span>
-          <span className="text-white">Rethinking</span><br />
-          <span className="text-ted-red">Tomorrow</span>
-          <span className="text-white">"</span>
-        </motion.h1>
-
-        {/* Centered Action Buttons */}
-        <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center gap-4 pt-2 pointer-events-auto">
-          
-          {/* APPLY TO SPEAK BUTTON */}
-          <motion.button
-            onClick={onApplyClick}
-            whileHover={{ scale: 1.04, backgroundColor: '#d00024' }}
-            whileTap={{ scale: 0.97 }}
-            className="group flex items-center gap-2 bg-ted-red text-white text-xs font-bold px-7 py-3.5 md:px-8 md:py-4 tracking-wider uppercase transition-colors duration-200 cursor-pointer shadow-lg"
-          >
-            Meet Speakers
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              strokeWidth={2.5} 
-              stroke="currentColor" 
-              className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1.5"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-            </svg>
-          </motion.button>
-
-          {/* WATCH VIDEOS BUTTON */}
-          <motion.button
-            whileHover={{ scale: 1.04, backgroundColor: '#ffffff', color: '#000000' }}
-            whileTap={{ scale: 0.97 }}
-            className="group flex items-center gap-2 bg-white text-black text-xs font-bold px-7 py-3.5 md:px-8 md:py-4 tracking-wider uppercase transition-all duration-200 cursor-pointer shadow-lg"
-          >
-            WATCH VIDEOS
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              viewBox="0 0 24 24" 
-              fill="currentColor" 
-              className="w-4 h-4 transform transition-transform duration-300 group-hover:scale-115"
-            >
-              <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clipRule="evenodd" />
-            </svg>
-          </motion.button>
-
-        </motion.div>
-
-      </motion.div>
-
     </section>
   );
 }

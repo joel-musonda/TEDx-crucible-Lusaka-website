@@ -128,7 +128,7 @@ const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
                     step > s.id 
                       ? 'bg-zinc-800 border border-zinc-700 text-white' 
                       : step === s.id 
-                      ? 'bg-zinc-800 border-2 border-ted-red text-white shadow-[0_0_15px_rgba(255,43,6,0.3)]' 
+                      ? 'bg-zinc-800 border-2 border-ted-red text-white shadow-[0_0_15px_rgba(235,0,40,0.3)]'
                       : 'bg-zinc-900/50 border border-zinc-800 text-zinc-600'
                   }`}
                 >
@@ -363,7 +363,7 @@ const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
               {step < 4 ? (
                 <button
                   type="submit"
-                  className="px-8 py-3 bg-ted-red hover:bg-ted-red/90 text-white text-xs font-mono font-bold tracking-widest uppercase transition-all shadow-lg"
+                  className="px-8 py-3 bg-ted-red hover:bg-ted-red-hover text-white text-xs font-mono font-bold tracking-widest uppercase transition-all shadow-lg"
                 >
                   NEXT STEP
                 </button>
@@ -371,7 +371,7 @@ const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-8 py-3 bg-ted-red hover:bg-ted-red/90 disabled:bg-zinc-800 text-white text-xs font-mono font-bold tracking-widest uppercase transition-all shadow-lg"
+                  className="px-8 py-3 bg-ted-red hover:bg-ted-red-hover disabled:bg-zinc-800 text-white text-xs font-mono font-bold tracking-widest uppercase transition-all shadow-lg"
                 >
                   {isSubmitting ? "FORGING..." : "SUBMIT APPLICATION"}
                 </button>
@@ -383,7 +383,7 @@ const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
         </div>
 
         <p className="text-center text-[10px] font-mono text-zinc-600 tracking-widest uppercase">
-          APPLICATION DEADLINE: SEPTEMBER 30, 2026
+          APPLICATION DEADLINE: OCTOBER 10, 2026
         </p>
 
       </div>

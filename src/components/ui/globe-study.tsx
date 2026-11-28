@@ -150,7 +150,7 @@ export default function GlobeStudy(props: GlobeStudyProps) {
     const {
         style,
         background = "#0B0C0E",
-        baseColor = "#FF0000",
+        baseColor = "#EB0028",
         phrase = "everypointonthisballisapathbacktoanotherone",
         density = 136,
         glyphSize = 70,

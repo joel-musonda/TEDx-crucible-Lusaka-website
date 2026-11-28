@@ -207,6 +207,7 @@ export interface CrewMember {
 export interface FooterLink {
   label: string
   href?: string
+  onClick?: () => void
 }
 
 export interface FooterColumn {
@@ -560,17 +561,30 @@ const measure = (word: string, family: string): Metrics | null => {
 
 const useIso = typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect
 
-const Link = ({ link, className }: { link: FooterLink; className?: string }) =>
-  link.href ? (
-    <a className={className} href={link.href}>
+const Link = ({ link, className }: { link: FooterLink; className?: string }) => {
+  if (!link.href && !link.onClick) {
+    return <span className={className}>{link.label}</span>
+  }
+
+  const content = (
+    <>
       <span>{link.label}</span>
       <svg className="dcf-squiggle" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true">
         <path pathLength={1} d="M1 5 C10 1 16 7 25 4 S40 1 50 4 S66 7 75 4 S90 1 99 4" />
       </svg>
+    </>
+  )
+
+  return link.href ? (
+    <a className={className} href={link.href}>
+      {content}
     </a>
   ) : (
-    <span className={className}>{link.label}</span>
+    <button type="button" className={className} onClick={link.onClick}>
+      {content}
+    </button>
   )
+}
 
 export default function DoodleCrewFooter({
   wordmark = "MISCHIEF",
@@ -1261,7 +1275,7 @@ const CSS =
   ".dcf-cols{grid-column:2;grid-row:1/span 2;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}" +
   ".dcf-coltitle{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}" +
   ".dcf-col li{margin:0 0 7px}" +
-  ".dcf-link{position:relative;display:inline-block;font-size:14px;font-weight:550;color:var(--dcf-soft);padding:2px 0;transition:color .2s}" +
+  ".dcf-link{position:relative;display:inline-block;font-size:14px;font-weight:550;color:var(--dcf-soft);padding:2px 0;transition:color .2s;background:none;border:0;font-family:inherit;text-align:left;cursor:pointer}" +
   ".dcf-link:hover{color:var(--dcf-ink)}" +
   ".dcf-squiggle{position:absolute;left:-2px;right:-2px;bottom:-4px;width:calc(100% + 4px);height:7px;pointer-events:none}" +
   ".dcf-squiggle path{fill:none;stroke:var(--dcf-accent);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s cubic-bezier(.4,0,.2,1)}" +

@@ -1,7 +1,8 @@
 import React from 'react';
+import { BRAND_RED } from '../theme';
 import DoodleCrewFooter from './ui/doodle-crew-footer';
 
-export default function Footer() {
+export default function Footer({ onViewSection, onViewSpeakers, onViewContact }) {
   const currentYear = new Date().getFullYear();
 
   const crew = [
@@ -16,25 +17,25 @@ export default function Footer() {
     {
       title: 'Event',
       links: [
-        { label: 'About', href: '#about' },
-        { label: 'Speakers', href: '#speakers' },
-        { label: 'Program', href: '#program' },
-        { label: 'Contact', href: '#contact' },
+        { label: 'About', onClick: () => onViewSection?.('about') },
+        { label: 'Speakers', onClick: onViewSpeakers },
+        { label: 'Program', onClick: () => onViewSection?.('program') },
+        { label: 'Contact', onClick: onViewContact },
       ],
     },
     {
       title: 'Theme',
       links: [
-        { label: 'Economics', href: '#about' },
-        { label: 'Artificial Intelligence', href: '#about' },
-        { label: 'Psychology', href: '#about' },
-        { label: 'Leadership', href: '#about' },
+        { label: 'Economics', onClick: () => onViewSection?.('about') },
+        { label: 'Artificial Intelligence', onClick: () => onViewSection?.('about') },
+        { label: 'Psychology', onClick: () => onViewSection?.('about') },
+        { label: 'Leadership', onClick: () => onViewSection?.('about') },
       ],
     },
     {
       title: 'Community',
       links: [
-        { label: 'Crucible Lusaka', href: '#about' },
+        { label: 'Crucible Lusaka', onClick: () => onViewSection?.('about') },
         { label: 'TEDx Program', href: 'https://www.ted.com/about/programs-initiatives/tedx-program' },
       ],
     },
@@ -62,7 +63,7 @@ export default function Footer() {
       palette={{
         background: '#000000',
         ink: '#f4f1ea',
-        accent: '#ff2b06',
+        accent: BRAND_RED,
       }}
       height="580px"
     />

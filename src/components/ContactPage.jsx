@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import GlobeStudy from './ui/globe-study';
+import { BRAND_RED } from '../theme';
 
 const RECIPIENT_EMAIL = 'joel.musonda@cruciblelusaka.org';
-const HERO_RED = '#d90429';
 
 export default function ContactPage() {
   const [senderName, setSenderName] = useState('');
@@ -12,8 +12,8 @@ export default function ContactPage() {
 
   const buildMailtoHref = () => {
     const subject = senderName.trim()
-      ? `TEDxCrucibleLusaka Inquiry from ${senderName.trim()}`
-      : 'TEDxCrucibleLusaka Inquiry';
+      ? `TEDx Crucible Lusaka Inquiry from ${senderName.trim()}`
+      : 'TEDx Crucible Lusaka Inquiry';
 
     const bodyLines = [
       message.trim(),
@@ -45,121 +45,159 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-[#d90429] selection:text-white pt-28 pb-20 px-6 md:px-12 lg:px-16 overflow-x-clip">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-        {/* Left Column: Contact Info & Send Email */}
-        <div className="lg:col-span-6 min-w-0 space-y-8">
-          <div className="space-y-4">
-            <h1 className="text-4xl sm:text-5xl xl:text-6xl font-black tracking-tight leading-[1.04] text-white break-words">
-              Get in Touch With{' '}
-              <span style={{ color: HERO_RED }} className="break-all sm:break-words">
-                TEDxCrucibleLusaka.
-              </span>
-            </h1>
-            <p className="text-sm md:text-base text-white/85 leading-relaxed max-w-xl">
-              Questions about the event, speakers, partnerships, or Crucible Lusaka? Reach out directly.
+    <div className="min-h-screen bg-black text-white selection:bg-ted-red selection:text-white">
+      <div className="mx-auto max-w-7xl px-6 pb-20 pt-28 md:px-12 lg:px-16">
+        <header className="max-w-3xl">
+          <div className="flex items-center gap-3">
+            <span className="h-px w-8 bg-ted-red" aria-hidden="true" />
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-ted-red">
+              Contact
             </p>
           </div>
+          <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-5xl md:text-6xl">
+            Get in touch with{' '}
+            <span className="break-words text-ted-red">TEDx Crucible Lusaka.</span>
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70 md:text-base">
+            Questions about the event, speaking, or partnerships? Email us directly, or use the
+            form below to open a draft in your email app.
+          </p>
+        </header>
 
-          <div className="rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/15 p-6 md:p-8 space-y-6 shadow-2xl">
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-white/15">
-              <div className="min-w-0">
-                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/60 block">
-                  Direct Email
-                </span>
-                <a
-                  href={`mailto:${RECIPIENT_EMAIL}`}
-                  className="text-sm sm:text-base font-semibold text-white hover:text-[#d90429] transition-colors break-all"
+        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="space-y-6 lg:col-span-7">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
+                Email
+              </p>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-4">
+                <div className="min-w-0">
+                  <a
+                    href={`mailto:${RECIPIENT_EMAIL}`}
+                    className="break-all text-sm font-semibold text-white transition-colors hover:text-ted-red sm:text-base"
+                  >
+                    {RECIPIENT_EMAIL}
+                  </a>
+                  <p className="mt-1 text-xs text-white/45">
+                    For speaking, partnerships, and general questions.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCopyAddress}
+                  className="shrink-0 rounded-full border border-white/25 px-4 py-1.5 text-xs font-semibold text-white transition-colors hover:border-ted-red hover:bg-ted-red hover:text-white"
                 >
-                  {RECIPIENT_EMAIL}
-                </a>
+                  {copied ? 'Copied' : 'Copy address'}
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={handleCopyAddress}
-                className="text-xs font-semibold px-3.5 py-1.5 rounded-full border border-white/25 text-white hover:bg-white hover:text-black transition-colors cursor-pointer shrink-0"
-              >
-                {copied ? 'Copied' : 'Copy Address'}
-              </button>
+              <span className="sr-only" aria-live="polite">
+                {copied ? 'Email address copied' : ''}
+              </span>
             </div>
 
-            <form onSubmit={handleSendEmail} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1.5 min-w-0">
-                  <label htmlFor="contact-name" className="text-xs font-semibold text-white block">
-                    Your Name
+            <form
+              onSubmit={handleSendEmail}
+              className="space-y-5 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6"
+            >
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-white">
+                  Send a message
+                </h2>
+                <span className="text-[10px] uppercase tracking-[0.16em] text-white/35">
+                  Opens in your email app
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="min-w-0 space-y-1.5">
+                  <label htmlFor="contact-name" className="block text-xs font-semibold text-white/80">
+                    Your name
                   </label>
                   <input
                     id="contact-name"
+                    name="name"
                     type="text"
+                    autoComplete="name"
+                    required
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
                     placeholder="Your name"
-                    className="w-full rounded-xl bg-black/70 border border-white/20 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-[#d90429]"
+                    className="w-full rounded-lg border border-white/15 bg-black/60 px-4 py-2.5 text-sm text-white placeholder:text-white/35 transition-colors focus:border-ted-red focus:outline-none"
                   />
                 </div>
-                <div className="space-y-1.5 min-w-0">
-                  <label htmlFor="contact-email" className="text-xs font-semibold text-white block">
-                    Your Email
+                <div className="min-w-0 space-y-1.5">
+                  <label htmlFor="contact-email" className="block text-xs font-semibold text-white/80">
+                    Your email
                   </label>
                   <input
                     id="contact-email"
+                    name="email"
                     type="email"
+                    autoComplete="email"
+                    required
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full rounded-xl bg-black/70 border border-white/20 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-[#d90429]"
+                    className="w-full rounded-lg border border-white/15 bg-black/60 px-4 py-2.5 text-sm text-white placeholder:text-white/35 transition-colors focus:border-ted-red focus:outline-none"
                   />
                 </div>
               </div>
 
-              <div className="space-y-1.5 min-w-0">
-                <label htmlFor="contact-message" className="text-xs font-semibold text-white block">
+              <div className="min-w-0 space-y-1.5">
+                <label htmlFor="contact-message" className="block text-xs font-semibold text-white/80">
                   Message
                 </label>
                 <textarea
                   id="contact-message"
-                  rows={4}
+                  name="message"
+                  rows={5}
+                  required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Write your message..."
-                  className="w-full rounded-xl bg-black/70 border border-white/20 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-[#d90429] resize-none"
+                  placeholder="Write your message"
+                  className="w-full resize-none rounded-lg border border-white/15 bg-black/60 px-4 py-3 text-sm text-white placeholder:text-white/35 transition-colors focus:border-ted-red focus:outline-none"
                 />
               </div>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
+                <p className="max-w-xs text-xs leading-relaxed text-white/45">
+                  Nothing is stored on this site. Your message opens in your email app, ready to
+                  send.
+                </p>
                 <button
                   type="submit"
-                  style={{ backgroundColor: HERO_RED }}
-                  className="hover:opacity-90 text-white text-xs font-bold uppercase tracking-[0.2em] px-7 py-3.5 rounded-full transition-opacity cursor-pointer shadow-lg"
+                  className="rounded-full bg-ted-red px-7 py-3 text-xs font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-ted-red-hover"
                 >
-                  Send Email
+                  Open email draft
                 </button>
-                <a
-                  href={`mailto:${RECIPIENT_EMAIL}`}
-                  className="text-xs font-semibold text-white hover:underline underline-offset-4"
-                >
-                  Open Mail App Directly
-                </a>
               </div>
             </form>
           </div>
-        </div>
 
-        {/* Right Column: Interactive Globe */}
-        <div className="lg:col-span-6 min-w-0">
-          <div className="h-[460px] sm:h-[540px] lg:h-[600px] w-full rounded-2xl overflow-hidden border border-white/15 bg-[#0B0C0E] shadow-2xl">
-            <GlobeStudy
-              background="#0B0C0E"
-              baseColor={HERO_RED}
-              phrase="tedxcruciblelusakalusaka"
-              style={{
-                minWidth: 0,
-                minHeight: 0,
-                width: '100%',
-                height: '100%',
-              }}
-            />
+          <div className="lg:col-span-5">
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0B0C0E]">
+              <div className="h-[340px] sm:h-[420px]">
+                <GlobeStudy
+                  background="#0B0C0E"
+                  baseColor={BRAND_RED}
+                  phrase="tedxcruciblelusaka"
+                  style={{
+                    minWidth: 0,
+                    minHeight: 0,
+                    width: '100%',
+                    height: '100%',
+                  }}
+                />
+              </div>
+              <div className="flex items-center justify-between gap-4 border-t border-white/10 px-5 py-4">
+                <p className="text-xs text-white/60">Based in Lusaka, Zambia.</p>
+                <span className="h-2 w-2 shrink-0 rounded-full bg-ted-red" aria-hidden="true" />
+              </div>
+            </div>
+            <p className="mt-4 text-xs leading-relaxed text-white/45">
+              TEDx Crucible Lusaka is independently organised by students at Crucible Lusaka under
+              a licence from TED.
+            </p>
           </div>
         </div>
       </div>
