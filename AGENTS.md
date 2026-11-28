@@ -26,5 +26,11 @@ Vite + React 19 + Tailwind CSS v4 single-page site for TEDxCrucibleLusaka.
   links); keep them subtle, reduced-motion aware, and away from body copy. The
   hero canvas stays pointer-events:none and tracks the pointer from `window` so
   CTA buttons remain clickable.
+- Every hero is exactly one viewport tall (`min-h-svh`). The homepage uses
+  `Hero.jsx`; the Speakers, Contact, and Apply pages use the shared `PageHero`
+  (`eyebrow`, `title`, `description`, `actions`, `meta`, `background`). Keep
+  hero content one screen tall: `.hide-on-short` and `.hero-shell` in
+  `src/index.css` condense it below 660px viewport height, and `ScrollCue`
+  (`.hero-scroll-cue`) only appears when there is room.
 - Keep event dates consistent across `Hero.jsx`, `MainContent.jsx`, and
   `SpeakerForm.jsx` (applications close 10 October 2026; event 15 December 2026).

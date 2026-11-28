@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import GlobeStudy from './ui/globe-study';
+import PageHero from './PageHero';
 import { BRAND_RED } from '../theme';
 
 const RECIPIENT_EMAIL = 'joel.musonda@cruciblelusaka.org';
@@ -46,25 +47,42 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-ted-red selection:text-white">
-      <div className="mx-auto max-w-7xl px-6 pb-20 pt-28 md:px-12 lg:px-16">
-        <header className="max-w-3xl">
-          <div className="flex items-center gap-3">
-            <span className="h-px w-8 bg-ted-red" aria-hidden="true" />
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-ted-red">
-              Contact
-            </p>
-          </div>
-          <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-5xl md:text-6xl">
+      <PageHero
+        eyebrow="Contact"
+        title={
+          <>
             Get in touch with{' '}
             <span className="break-words text-ted-red">TEDx Crucible Lusaka.</span>
-          </h1>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70 md:text-base">
-            Questions about the event, speaking, or partnerships? Email us directly, or use the
-            form below to open a draft in your email app.
-          </p>
-        </header>
+          </>
+        }
+        description="Questions about the event, speaking, or partnerships? Email us directly, or use the form below to open a draft in your email app."
+        actions={
+          <>
+            <a
+              href={`mailto:${RECIPIENT_EMAIL}`}
+              className="group inline-flex items-center justify-center gap-2 rounded-none bg-ted-red px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-ted-red-hover"
+            >
+              Email the team
+            </a>
+            <button
+              type="button"
+              onClick={handleCopyAddress}
+              className="inline-flex items-center justify-center gap-2 rounded-none border border-white/25 px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:border-white hover:bg-white/10"
+            >
+              {copied ? 'Address copied' : 'Copy email address'}
+            </button>
+          </>
+        }
+        meta={
+          <>
+            <span>Lusaka, Zambia</span>
+            <span>Speaking · Partnerships · Press</span>
+          </>
+        }
+      />
 
-        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+      <div className="mx-auto max-w-7xl px-6 pb-24 pt-16 md:px-12 md:pt-24 lg:px-16">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="space-y-6 lg:col-span-7">
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">

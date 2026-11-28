@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import PageHero from './PageHero';
 
 export default function SpeakerForm() {
   
@@ -39,6 +40,12 @@ const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
   const handleBack = (e) => {
     e.preventDefault();
     setStep((prev) => Math.max(prev - 1, 1));
+  };
+
+  const scrollToForm = () => {
+    document
+      .getElementById('application-form')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const handleSubmit = async (e) => {
@@ -95,22 +102,37 @@ const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
   }
 
   return (
-    <div className="bg-black text-white min-h-screen py-16 px-4 md:px-8 selection:bg-ted-red selection:text-white">
-      <div className="max-w-3xl mx-auto space-y-10">
-        
-        {/* Top Header Badge & Title */}
-        <div className="text-center space-y-4">
-          <span className="inline-block border border-ted-red/40 bg-ted-red/10 text-ted-red text-[10px] font-mono tracking-widest uppercase px-4 py-1">
-            SPEAKER CALL 2026
-          </span>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight">
-            Forge Your Idea.
-          </h1>
-          <p className="text-zinc-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-            The Crucible is where raw thoughts are refined into powerful narratives. Share your vision with Lusaka and the world.
-          </p>
-        </div>
+    <div className="bg-black text-white min-h-screen selection:bg-ted-red selection:text-white">
+      <PageHero
+        eyebrow="Speaker call 2026"
+        title={
+          <>
+            Forge Your <span className="text-ted-red">Idea.</span>
+          </>
+        }
+        description="The Crucible is where raw thoughts are refined into powerful narratives. Share your vision with Lusaka and the world."
+        actions={
+          <button
+            type="button"
+            onClick={scrollToForm}
+            className="group inline-flex items-center justify-center gap-2 rounded-none bg-ted-red px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-ted-red-hover"
+          >
+            Start application
+          </button>
+        }
+        meta={
+          <>
+            <span>Applications close 10 October 2026</span>
+            <span>Event 15 December 2026</span>
+            <span>Four short steps</span>
+          </>
+        }
+      />
 
+      <div
+        id="application-form"
+        className="mx-auto max-w-3xl scroll-mt-24 space-y-10 px-4 pb-24 pt-16 md:px-8 md:pt-24"
+      >
         {/* Form Main Container */}
         <div className="bg-zinc-900/70 border border-zinc-800 backdrop-blur-md p-6 md:p-10 shadow-2xl relative">
           

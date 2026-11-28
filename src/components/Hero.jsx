@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import ParticleDrift from './background';
+import ScrollCue from './ui/ScrollCue';
 import useMediaQuery from '../hooks/useMediaQuery';
 import { BRAND_RED, PARTICLE_BLUE } from '../theme';
 
@@ -45,7 +46,11 @@ export default function Hero({ onApplyClick, onViewSpeakers }) {
   const compact = useMediaQuery('(max-width: 640px)');
 
   return (
-    <section id="hero" className="relative isolate flex min-h-[calc(100svh-5rem)] items-center overflow-hidden bg-black text-white">
+    <section
+      id="hero"
+      aria-label="TEDx Crucible Lusaka"
+      className="relative isolate flex min-h-svh flex-col overflow-hidden bg-black text-white"
+    >
       {!reduceMotion && (
         <div aria-hidden="true" className="hero-blue-drift">
           <ParticleDrift
@@ -73,7 +78,7 @@ export default function Hero({ onApplyClick, onViewSpeakers }) {
         }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-5xl px-6 py-28 text-center md:px-12">
+      <div className="hero-shell relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-6 pb-24 pt-32 text-center md:px-12 md:pb-28 md:pt-36">
         <motion.div
           variants={containerVariants}
           initial={reduceMotion ? false : 'hidden'}
@@ -81,7 +86,7 @@ export default function Hero({ onApplyClick, onViewSpeakers }) {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-[clamp(3rem,10vw,7.75rem)] font-black uppercase leading-[0.86] tracking-[-0.045em]"
+            className="text-balance text-[clamp(2.75rem,min(9.5vw,13vh),7.75rem)] font-black uppercase leading-[0.86] tracking-[-0.045em]"
           >
             <span className="mr-1 text-ted-red" aria-hidden="true">
               “
@@ -96,7 +101,7 @@ export default function Hero({ onApplyClick, onViewSpeakers }) {
 
           <motion.div
             variants={itemVariants}
-            className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
+            className="mt-[clamp(2.25rem,6vh,3.5rem)] flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
             <button
               type="button"
@@ -118,18 +123,24 @@ export default function Hero({ onApplyClick, onViewSpeakers }) {
 
           <motion.dl
             variants={itemVariants}
-            className="mx-auto mt-14 flex max-w-2xl flex-wrap items-start justify-center gap-x-10 gap-y-5 border-t border-white/10 pt-6"
+            className="hide-on-short mx-auto mt-[clamp(1.75rem,5.5vh,3.75rem)] grid w-full max-w-2xl grid-cols-3 divide-x divide-white/10 border-t border-white/10 pt-5"
           >
             {EVENT_DETAILS.map((detail) => (
-              <div key={detail.label} className="text-center">
-                <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
+              <div key={detail.label} className="min-w-0 px-1.5 text-center sm:px-4">
+                <dt className="text-[9px] font-semibold uppercase tracking-[0.18em] text-white/35 sm:text-[10px]">
                   {detail.label}
                 </dt>
-                <dd className="mt-1.5 text-sm font-semibold text-white">{detail.value}</dd>
+                <dd className="mt-1.5 text-[11px] font-semibold leading-snug text-white sm:text-sm">
+                  {detail.value}
+                </dd>
               </div>
             ))}
           </motion.dl>
         </motion.div>
+      </div>
+
+      <div className="hero-scroll-cue">
+        <ScrollCue />
       </div>
     </section>
   );
