@@ -1,30 +1,71 @@
 import React from 'react';
 import BlueSmoke from './BlueSmoke';
+import alinaswePhoto from '../assets/speakers/alinaswe-chifupa.webp';
+import christinePhoto from '../assets/speakers/christine-chinyemba.webp';
+import fredrickPhoto from '../assets/speakers/fredrick-mukuka.webp';
+import hassanPhoto from '../assets/speakers/hassan-badat.webp';
+import kondwaniPhoto from '../assets/speakers/kondwani-sampa.webp';
+import micahPhoto from '../assets/speakers/micah-mulundu.webp';
+import mulengaPhoto from '../assets/speakers/mulenga-chongo.webp';
+import rodgersPhoto from '../assets/speakers/rodgers-fyabipa.webp';
+import vaughnPhoto from '../assets/speakers/vaughn-lewis.webp';
+import eliasPhoto from '../assets/speakers/elias-mwape.webp';
 
-const STUDENT_SPEAKER_COUNT = 12;
+const STUDENT_PORTRAITS = [
+  { name: 'Alinaswe Chifupa', photo: alinaswePhoto },
+  { name: 'Christine Chinyemba', photo: christinePhoto },
+  { name: 'Fredrick Mukuka', photo: fredrickPhoto },
+  { name: 'Hassan Badat', photo: hassanPhoto },
+  { name: 'Kondwani Sampa', photo: kondwaniPhoto },
+  { name: 'Micah Mulundu', photo: micahPhoto },
+  { name: 'Mulenga Chongo', photo: mulengaPhoto },
+  { name: 'Rodgers Fyabipa', photo: rodgersPhoto },
+];
+
+const TEACHERS = [
+  {
+    id: 'teacher-martin-chishimba',
+    name: 'Mr Martin Chishimba',
+    role: '',
+    talkTitle: '',
+    bio: '',
+    isGuest: false,
+    photo: '',
+  },
+  {
+    id: 'teacher-elias-mwape',
+    name: 'Dr Elias Mwape, PhD',
+    role: 'Teacher',
+    talkTitle: '',
+    bio: '',
+    isGuest: false,
+    photo: eliasPhoto,
+  },
+];
 
 const DEFAULT_SPEAKERS = [
   {
     id: 'guest-principal',
-    name: 'Principal',
-    role: 'Guest Speaker',
+    name: 'Vaughn Lewis',
+    role: 'Principal & Keynote Speaker',
     talkTitle: 'Opening Keynote',
-    bio: 'Opening address from the Principal of Crucible Lusaka.',
+    bio: 'Principal of Crucible Lusaka.',
     isGuest: true,
-    photo: '',
+    photo: vaughnPhoto,
   },
-  ...Array.from({ length: STUDENT_SPEAKER_COUNT }, (_, i) => {
+  ...STUDENT_PORTRAITS.map((portrait, i) => {
     const number = String(i + 1).padStart(2, '0');
     return {
       id: `student-${number}`,
-      name: 'To be announced',
+      name: portrait.name,
       role: `Student Speaker ${number}`,
       talkTitle: '',
       bio: '',
       isGuest: false,
-      photo: '',
+      photo: portrait.photo,
     };
   }),
+  ...TEACHERS,
 ];
 
 function SpeakerCard({ speaker, index }) {
@@ -39,23 +80,26 @@ function SpeakerCard({ speaker, index }) {
     >
       <div className="relative aspect-square bg-zinc-950">
         {photo ? (
-          <img src={photo} alt={name} className="h-full w-full object-cover" />
+          <img
+            src={photo}
+            alt={`${name} portrait`}
+            className="h-full w-full object-cover object-top"
+            loading="lazy"
+            decoding="async"
+          />
         ) : (
           <div className="flex h-full items-center justify-center">
             <span className="text-4xl font-black tabular-nums text-white/10">{number}</span>
           </div>
         )}
-        {isGuest && (
-          <span className="absolute left-3 top-3 rounded-full bg-ted-red px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
-            Guest
-          </span>
-        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-1 border-t border-white/10 p-4">
-        <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-ted-red">
-          {role}
-        </span>
+        {role && (
+          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-ted-red">
+            {role}
+          </span>
+        )}
         <h3 className="text-base font-bold leading-snug text-white">{name}</h3>
         {talkTitle && <p className="text-xs text-white/55">{talkTitle}</p>}
         {bio && <p className="mt-1 text-xs leading-relaxed text-white/45">{bio}</p>}
@@ -75,7 +119,7 @@ export default function SpeakersPage({ speakers = DEFAULT_SPEAKERS }) {
             <span className="text-ted-red">Crucible Lusaka.</span>
           </h1>
           <p className="text-sm leading-relaxed text-white/70 md:text-base">
-            Meet the guest speaker and the twelve students taking the stage this year.
+            Meet the guest speaker, teachers, and student speakers taking the stage this year.
           </p>
         </header>
 
